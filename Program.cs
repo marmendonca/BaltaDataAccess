@@ -1,4 +1,5 @@
 using System;
+using System.Data;
 using BaltaDataAccess.Models;
 using Dapper;
 using Microsoft.Data.SqlClient;
@@ -11,30 +12,34 @@ namespace BaltaDataAccess
         {
             const String connectionString = "Server=localhost;Database=balta;User Id=sa;Password=nobre123";
 
-            
+
             using (var connection = new SqlConnection(connectionString))
             {
                 //UpdateCategory(connection);
                 //DeleteCategory(connection);
                 //CreateCategory(connection);
                 //CreateManyCategorys(connection);
-                GetCategory(connection);
+                //GetCategory(connection);
                 //ListCategory(connection);
+                //ExecuteProcedure(connection);
+                //ExecuteReadProcedure(connection);
+                ExecuteScalar(connection);
             }
         }
 
         static void ListCategory(SqlConnection connection)
         {
             var categories = connection.Query<Category>("SELECT [ID], [TITLE] FROM [Category]");
-                foreach (var item in categories)
-                {
-                    Console.WriteLine($"{item.Id} - {item.Title}");
-                }
+            foreach (var item in categories)
+            {
+                Console.WriteLine($"{item.Id} - {item.Title}");
+            }
         }
 
         static void GetCategory(SqlConnection connection)
         {
-            var category = connection.QueryFirstOrDefault<Category>("SELECT TOP 1 [Id], [Title] FROM [Category] WHERE [Id] = @id", new {
+            var category = connection.QueryFirstOrDefault<Category>("SELECT TOP 1 [Id], [Title] FROM [Category] WHERE [Id] = @id", new
+            {
                 id = "dbd7015c-958d-45ca-911a-ae8b1a51c8ab"
             });
 
@@ -53,7 +58,7 @@ namespace BaltaDataAccess
             category.Featured = false;
             var insertSql = @"INSERT INTO [CATEGORY] VALUES(@Id, @Title, @Url, @Summary, @Order, @Description, @Featured)";
 
-            var rows = connection.Execute(insertSql, new 
+            var rows = connection.Execute(insertSql, new
             {
                 category.Id,
                 category.Title,
@@ -71,7 +76,7 @@ namespace BaltaDataAccess
         {
             var updateQuery = "UPDATE [Category] SET [Title] = @title where [Id] = @id";
 
-            var rows = connection.Execute(updateQuery, new 
+            var rows = connection.Execute(updateQuery, new
             {
                 id = new Guid("e79c318f-7afd-4b87-ba03-98f5f4a330d0"),
                 title = "Amazon"
@@ -84,7 +89,7 @@ namespace BaltaDataAccess
         {
             var deleteQuery = "DELETE [Category] WHERE [Id] = @id";
 
-            var rows = connection.Execute(deleteQuery, new 
+            var rows = connection.Execute(deleteQuery, new
             {
                 id = new Guid("d855e8a6-f631-4540-ad21-fbb0f49dc1d8")
             });
@@ -114,7 +119,7 @@ namespace BaltaDataAccess
 
             var insertSql = @"INSERT INTO [CATEGORY] VALUES(@Id, @Title, @Url, @Summary, @Order, @Description, @Featured)";
 
-            var rows = connection.Execute(insertSql, new[] 
+            var rows = connection.Execute(insertSql, new[]
             {
                 new
                 {
@@ -140,5 +145,65 @@ namespace BaltaDataAccess
 
             Console.WriteLine($"{rows} linhas inseridas");
         }
-    }   
+
+        static void ExecuteProcedure(SqlConnection connection)
+        {
+            var procedure = "spDeleteStudent";
+            var pars = new { StudentId = "ea1eb6bb-580c-4ec1-ae77-4e7ba97ea4e7" };
+
+            var affectedRows = connection.Execute(procedure, pars, commandType: CommandType.StoredProcedure);
+
+            Console.WriteLine($"{affectedRows} linhas inseridas");
+        }
+
+        static void ExecuteReadProcedure(SqlConnection connection)
+        {
+            var procedure = "spGetCoursesByCategory";
+            var pars = new { CategoryId = "b4c5af73-7e02-4ff7-951c-f69ee1729cac" };
+
+            var courses = connection.Query(procedure, pars, commandType: CommandType.StoredProcedure);
+            foreach (var item in courses)
+            {
+                if (item != null)
+                {
+                    Console.WriteLine(item.Title);
+                }
+                else
+                {
+                    Console.WriteLine("Tem é nada aqui");
+                }
+            }
+        }
+
+        static void ExecuteScalar(SqlConnection connection)
+        {
+            var category = new Category();
+            category.Title = "JBL";
+            category.Url = "amazon/";
+            category.Description = "Categoria destinada a serviços da JBL";
+            category.Order = 8;
+            category.Summary = "JBL Phone";
+            category.Featured = false;
+            var insertSql = @"INSERT INTO 
+                                        [Category]
+                                        OUTPUT inserted.[Id]
+                                     VALUES
+                                        (NEWID(), @Title, @Url, @Summary, @Order, @Description, @Featured) 
+                                        SELECT SCOPE_IDENTITY()";
+
+            var id = connection.ExecuteScalar<Guid>(insertSql, new
+            {
+                category.Title,
+                category.Url,
+                category.Summary,
+                category.Order,
+                category.Description,
+                category.Featured
+            });
+
+            Console.WriteLine($"A categoria inserida tem o id: {id}");
+        }
+
+        
+    }
 }

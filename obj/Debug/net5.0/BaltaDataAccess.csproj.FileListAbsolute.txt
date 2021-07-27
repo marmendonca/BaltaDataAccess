@@ -5,7 +5,6 @@ C:\Users\queir\Documents\SpaceStudy\Cursos\BaltaDataAccess\bin\Debug\net5.0\Balt
 C:\Users\queir\Documents\SpaceStudy\Cursos\BaltaDataAccess\bin\Debug\net5.0\BaltaDataAccess.dll
 C:\Users\queir\Documents\SpaceStudy\Cursos\BaltaDataAccess\bin\Debug\net5.0\ref\BaltaDataAccess.dll
 C:\Users\queir\Documents\SpaceStudy\Cursos\BaltaDataAccess\bin\Debug\net5.0\BaltaDataAccess.pdb
-C:\Users\queir\Documents\SpaceStudy\Cursos\BaltaDataAccess\obj\Debug\net5.0\BaltaDataAccess.csprojAssemblyReference.cache
 C:\Users\queir\Documents\SpaceStudy\Cursos\BaltaDataAccess\obj\Debug\net5.0\BaltaDataAccess.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\queir\Documents\SpaceStudy\Cursos\BaltaDataAccess\obj\Debug\net5.0\BaltaDataAccess.AssemblyInfoInputs.cache
 C:\Users\queir\Documents\SpaceStudy\Cursos\BaltaDataAccess\obj\Debug\net5.0\BaltaDataAccess.AssemblyInfo.cs
@@ -43,3 +42,4 @@ C:\Users\queir\Documents\SpaceStudy\Cursos\BaltaDataAccess\bin\Debug\net5.0\runt
 C:\Users\queir\Documents\SpaceStudy\Cursos\BaltaDataAccess\bin\Debug\net5.0\runtimes\win\lib\netcoreapp3.0\System.Windows.Extensions.dll
 C:\Users\queir\Documents\SpaceStudy\Cursos\BaltaDataAccess\obj\Debug\net5.0\BaltaDataAccess.csproj.CopyComplete
 C:\Users\queir\Documents\SpaceStudy\Cursos\BaltaDataAccess\bin\Debug\net5.0\Dapper.dll
+C:\Users\queir\Documents\SpaceStudy\Cursos\BaltaDataAccess\obj\Debug\net5.0\BaltaDataAccess.csproj.AssemblyReference.cache
